@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "5 Day Forecast"
+        navigationItem.title = "7 Day Forecast"
         setUp()
     }
     
