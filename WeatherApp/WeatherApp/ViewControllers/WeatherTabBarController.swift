@@ -12,7 +12,7 @@ class WeatherTabBarController: UITabBarController {
 
     public lazy var mainViewController: MainViewController = {
         let viewController = MainViewController()
-        viewController.tabBarItem = UITabBarItem(title: "5 Day Forecast", image: UIImage(systemName: "cloud"), tag: 0)
+        viewController.tabBarItem = UITabBarItem(title: "7 Day Forecast", image: UIImage(systemName: "cloud"), tag: 0)
         return viewController
     }()
     

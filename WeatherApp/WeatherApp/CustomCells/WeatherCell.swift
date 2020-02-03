@@ -10,6 +10,8 @@ import UIKit
 
 class WeatherCell: UICollectionViewCell {
     
+    private let stringVar = ""
+    
     public lazy var customCellDateLabel: UILabel = {
        let label = UILabel()
         label.textAlignment = .center
@@ -55,6 +57,18 @@ class WeatherCell: UICollectionViewCell {
         setUpCollectionView()
     }
     
+    public func setUp(_ forecast: Weather){
+        customCellDateLabel.text = stringVar.intervalIntoDate(forecast.time)
+        customCellLowLabel.text = "Daily Low: \(String(format: "%0.0f", forecast.temperatureLow)) °F"
+        customCellHighLabel.text = "Daily High: \(String(format: "%0.0f", forecast.temperatureHigh)) °F"
+        if let image = UIImage(named: forecast.icon) {
+            customCellImage.image = image
+        } else {
+            // TODO: Change the filler image to something more appropriate
+            customCellImage.image = UIImage(systemName: "person")
+        }
+    }
+    
     private func setUpCollectionView() {
         setUpCustomCellDateLabelConstraints()
         setUpCustomCellImageConstraints()
@@ -70,7 +84,7 @@ class WeatherCell: UICollectionViewCell {
     private func setUpCustomCellImageConstraints() {
         contentView.addSubview(customCellImage)
         customCellImage.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([customCellImage.topAnchor.constraint(equalTo: customCellDateLabel.bottomAnchor, constant: 8), customCellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), customCellImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), customCellImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor), customCellImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6)])
+        NSLayoutConstraint.activate([customCellImage.topAnchor.constraint(equalTo: customCellDateLabel.bottomAnchor, constant: 8), customCellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), customCellImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), customCellImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor), customCellImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7)])
     }
     
     private func setUpStackViewConstraints() {
@@ -81,4 +95,5 @@ class WeatherCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([cellHighLowStackView.topAnchor.constraint(equalTo: customCellImage.bottomAnchor, constant: 8), cellHighLowStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8), cellHighLowStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)])
     }
+    
 }

@@ -14,6 +14,15 @@
 		548CE066234D33E600B5177D /* ZipCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548CE065234D33E600B5177D /* ZipCodeHelper.swift */; };
 		548CE068234D340700B5177D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 548CE067234D340700B5177D /* Assets.xcassets */; };
 		C41A1FF423E71AFB007827DB /* FavouriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A1FF323E71AFB007827DB /* FavouriteCell.swift */; };
+		C41A1FF623E794A4007827DB /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A1FF523E794A4007827DB /* ApiKeys.swift */; };
+		C41A1FFC23E79545007827DB /* PixModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A1FFB23E79545007827DB /* PixModel.swift */; };
+		C41A1FFF23E7961A007827DB /* PixAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A1FFE23E7961A007827DB /* PixAPI.swift */; };
+		C41A200123E79AA5007827DB /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200023E79AA5007827DB /* String+Extensions.swift */; };
+		C41A200323E7AA6F007827DB /* DarkSkyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200223E7AA6F007827DB /* DarkSkyAPI.swift */; };
+		C41A200523E7AC14007827DB /* DarkSkyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200423E7AC14007827DB /* DarkSkyModel.swift */; };
+		C41A200823E7BD68007827DB /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200723E7BD68007827DB /* FileManagerHelper.swift */; };
+		C41A200A23E7BD78007827DB /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200923E7BD78007827DB /* UserDefaultsHelper.swift */; };
+		C41A200C23E7BD8A007827DB /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A200B23E7BD8A007827DB /* FileManager+Extensions.swift */; };
 		C43DB08D23E61CAA00342079 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43DB08C23E61CAA00342079 /* WeatherCell.swift */; };
 		C465A01323E4C5A90035C500 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C465A01223E4C5A90035C500 /* NetworkHelper.swift */; };
 		C465A01B23E4C5B40035C500 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C465A01A23E4C5B40035C500 /* WeatherAppTests.swift */; };
@@ -48,6 +57,15 @@
 		548CE065234D33E600B5177D /* ZipCodeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipCodeHelper.swift; sourceTree = "<group>"; };
 		548CE067234D340700B5177D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C41A1FF323E71AFB007827DB /* FavouriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCell.swift; sourceTree = "<group>"; };
+		C41A1FF523E794A4007827DB /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		C41A1FFB23E79545007827DB /* PixModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixModel.swift; sourceTree = "<group>"; };
+		C41A1FFE23E7961A007827DB /* PixAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixAPI.swift; sourceTree = "<group>"; };
+		C41A200023E79AA5007827DB /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		C41A200223E7AA6F007827DB /* DarkSkyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkyAPI.swift; sourceTree = "<group>"; };
+		C41A200423E7AC14007827DB /* DarkSkyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkyModel.swift; sourceTree = "<group>"; };
+		C41A200723E7BD68007827DB /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
+		C41A200923E7BD78007827DB /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		C41A200B23E7BD8A007827DB /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
 		C43DB08C23E61CAA00342079 /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		C465A01223E4C5A90035C500 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		C465A01823E4C5B40035C500 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +121,8 @@
 		548CE050234D33B500B5177D /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				C41A200623E7BD57007827DB /* Persistence */,
+				C41A1FFD23E79608007827DB /* APIs */,
 				C465A03623E4E8990035C500 /* Secrets */,
 				C43DB08B23E61C7600342079 /* CustomCells */,
 				C465A03123E4D25E0035C500 /* Extensions */,
@@ -114,6 +134,24 @@
 				548CE05F234D33B600B5177D /* Info.plist */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		C41A1FFD23E79608007827DB /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				C41A1FFE23E7961A007827DB /* PixAPI.swift */,
+				C41A200223E7AA6F007827DB /* DarkSkyAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		C41A200623E7BD57007827DB /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				C41A200723E7BD68007827DB /* FileManagerHelper.swift */,
+				C41A200923E7BD78007827DB /* UserDefaultsHelper.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		C43DB08B23E61C7600342079 /* CustomCells */ = {
@@ -150,6 +188,8 @@
 		C465A01023E4C54E0035C500 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C41A1FFB23E79545007827DB /* PixModel.swift */,
+				C41A200423E7AC14007827DB /* DarkSkyModel.swift */,
 				548CE065234D33E600B5177D /* ZipCodeHelper.swift */,
 			);
 			path = Models;
@@ -188,6 +228,8 @@
 			children = (
 				C465A03223E4D2810035C500 /* UIViewController+Extensions.swift */,
 				C465A03423E4DF990035C500 /* UIImageView+Extensions.swift */,
+				C41A200023E79AA5007827DB /* String+Extensions.swift */,
+				C41A200B23E7BD8A007827DB /* FileManager+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -195,6 +237,7 @@
 		C465A03623E4E8990035C500 /* Secrets */ = {
 			isa = PBXGroup;
 			children = (
+				C41A1FF523E794A4007827DB /* ApiKeys.swift */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -299,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C41A200123E79AA5007827DB /* String+Extensions.swift in Sources */,
 				C465A02723E4CB8F0035C500 /* FavouritesViewController.swift in Sources */,
 				548CE066234D33E600B5177D /* ZipCodeHelper.swift in Sources */,
 				C43DB08D23E61CAA00342079 /* WeatherCell.swift in Sources */,
@@ -307,10 +351,18 @@
 				548CE056234D33B500B5177D /* MainViewController.swift in Sources */,
 				C465A02C23E4D1AF0035C500 /* MainView.swift in Sources */,
 				C465A03023E4D1FC0035C500 /* DetailedView.swift in Sources */,
+				C41A200323E7AA6F007827DB /* DarkSkyAPI.swift in Sources */,
 				C465A02923E4CC7E0035C500 /* WeatherTabBarController.swift in Sources */,
+				C41A1FFF23E7961A007827DB /* PixAPI.swift in Sources */,
+				C41A1FFC23E79545007827DB /* PixModel.swift in Sources */,
 				C465A02E23E4D1C90035C500 /* FavouritesView.swift in Sources */,
 				C465A03523E4DF990035C500 /* UIImageView+Extensions.swift in Sources */,
+				C41A200823E7BD68007827DB /* FileManagerHelper.swift in Sources */,
+				C41A1FF623E794A4007827DB /* ApiKeys.swift in Sources */,
+				C41A200C23E7BD8A007827DB /* FileManager+Extensions.swift in Sources */,
 				C465A01323E4C5A90035C500 /* NetworkHelper.swift in Sources */,
+				C41A200A23E7BD78007827DB /* UserDefaultsHelper.swift in Sources */,
+				C41A200523E7AC14007827DB /* DarkSkyModel.swift in Sources */,
 				C465A02323E4C5D70035C500 /* NetworkError.swift in Sources */,
 				548CE052234D33B500B5177D /* AppDelegate.swift in Sources */,
 				548CE054234D33B500B5177D /* SceneDelegate.swift in Sources */,

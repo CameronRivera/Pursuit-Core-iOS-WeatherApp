@@ -11,6 +11,14 @@ import UIKit
 class MainViewController: UIViewController {
 
     let mainView = MainView()
+    let stringVar = ""
+    var weatherForecast: WeatherWrapper? {
+        didSet{
+            DispatchQueue.main.async{
+                self.mainView.collectionView.reloadData()
+            }
+        }
+    }
     
     override func loadView(){
         view = mainView
@@ -19,7 +27,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.title = "7 Day Forecast"
+        navigationItem.title = "Weekly Forecast"
         setUp()
     }
     
@@ -34,6 +42,17 @@ class MainViewController: UIViewController {
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         mainView.collectionView.register(WeatherCell.self, forCellWithReuseIdentifier: "weatherCell")
+        mainView.cityTextField.delegate = self
+        DarkSkyAPI.getWeather(DarkSkyAPI.getWeatherURL()) { [weak self] result in
+            switch result{
+            case .failure(let netError):
+                DispatchQueue.main.async{
+                    self?.showAlert("Loading Error", "Error Loading weather data: \(netError)")
+                }
+            case .success(let wrapper):
+                self?.weatherForecast = wrapper
+            }
+        }
     }
     
 }
@@ -41,14 +60,18 @@ class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return weatherForecast?.daily.data.count ?? 7
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let xCell = collectionView.dequeueReusableCell(withReuseIdentifier: "weatherCell", for: indexPath) as? WeatherCell else {
             fatalError("Could not dequeue collectionViewCell as WeatherCell.")
         }
-        xCell.backgroundColor = .systemOrange
+        
+        if let weather = weatherForecast {
+            xCell.setUp(weather.daily.data[indexPath.row])
+        }
+        xCell.backgroundColor = .systemBackground
         return xCell
     }
 }
@@ -65,7 +88,37 @@ extension MainViewController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailedVC = DetailViewController()
+        detailedVC.dailyForecast = weatherForecast?.daily.data[indexPath.row]
         navigationController?.pushViewController(detailedVC, animated: true)
+    }
+}
+
+extension MainViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else {
+            return false
+        }
+        
+        let allText = text + string
+        
+        if !DarkSkyAPI.areYouNumber(string) || allText.count > 5{
+            return false
+        }
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text, !text.isEmpty else {
+            return false
+        }
+        
+        if text.count != 5 {
+            return false
+        }
+        
+        textField.resignFirstResponder()
+        return true
     }
 }
 
