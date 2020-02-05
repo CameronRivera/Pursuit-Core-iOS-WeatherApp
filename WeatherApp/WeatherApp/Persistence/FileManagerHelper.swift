@@ -16,6 +16,7 @@ struct FileManagerHelper<T: Codable & Equatable>{
         self.fileName = fileName
     }
     
+    // Returns an array of objects from the file determined upon initialization.
     func getObject() throws -> [T] {
         guard let data = FileManager.default.contents(atPath: FileManager.default.filePathFromDocumentsDirectory(fileName).path) else {
             return []
@@ -23,12 +24,14 @@ struct FileManagerHelper<T: Codable & Equatable>{
         return try PropertyListDecoder().decode([T].self, from: data)
     }
     
+    // Saves an object to the local device in a file determined upon initialization.
     func saveObject(_ object: T) throws {
         var savedObjects = try getObject()
         savedObjects.insert(object, at: 0)
         try serializeAndPersist(savedObjects)
     }
     
+    // Removes an object from the items stored in a file determined upon initialization.
     func remove(_ item: T) throws {
         var savedObjects = try getObject()
         var index = -1
@@ -41,11 +44,13 @@ struct FileManagerHelper<T: Codable & Equatable>{
         try serializeAndPersist(savedObjects)
     }
     
+    // Serializes and Persists data to the local device.
     func serializeAndPersist(_ objects: [T]) throws {
         let dataToWrite = try PropertyListEncoder().encode(objects)
         try dataToWrite.write(to: FileManager.default.filePathFromDocumentsDirectory(fileName), options: Data.WritingOptions.atomic)
     }
     
+    // Determines whether a give object is stored on the local device. 
     func contains(_ object: T) throws -> Bool {
         let savedObjects = try getObject()
         return savedObjects.contains(object)

@@ -10,6 +10,7 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    // MARK: Properties of View Controller
     let mainView = MainView()
     let stringVar = ""
     var weatherForecast: WeatherWrapper? {
@@ -38,17 +39,6 @@ class MainViewController: UIViewController {
         }
     }
     
-    override func loadView(){
-        view = mainView
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = "Weekly Forecast"
-        setUp()
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         mainView.cityTextField.layer.borderWidth = 0.5
@@ -56,6 +46,19 @@ class MainViewController: UIViewController {
         mainView.cityTextField.layer.cornerRadius = 10.0
     }
     
+    override func loadView(){
+        view = mainView
+    }
+    
+    // MARK: Lifecycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        navigationItem.title = "Weekly Forecast"
+        setUp()
+    }
+    
+    // MARK: Helper Methods
     private func setUp(){
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
@@ -77,6 +80,7 @@ class MainViewController: UIViewController {
     
 }
 
+// MARK: Collection View Data Source Methods
 extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -96,6 +100,7 @@ extension MainViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: Collection View Delegate Methods
 extension MainViewController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -116,6 +121,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout{
     }
 }
 
+// MARK: TextField Delegate Methods
 extension MainViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else {

@@ -10,6 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    //MARK: Properties of DetailViewController
     private var detailedView = DetailedView()
     private var stringVar = ""
     private var savedPhoto = StoragePhoto(photoData: Data())
@@ -37,6 +38,7 @@ class DetailViewController: UIViewController {
         view = detailedView
     }
     
+    // MARK: Lifecycle Method
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -45,6 +47,7 @@ class DetailViewController: UIViewController {
         setUpUI()
     }
     
+    // MARK: Helper Methods
     private func setUp() {
         navigationItem.rightBarButtonItem = detailedView.saveButton
         navigationItem.rightBarButtonItem?.target = self
@@ -93,7 +96,7 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
+    // MARK: Actions
     @IBAction func photoFavourited(_ sender: UIBarButtonItem){
         if let favouriteData = detailedView.cityImageView.image?.jpegData(compressionQuality: 1.0){
             savedPhoto.photoData = favouriteData

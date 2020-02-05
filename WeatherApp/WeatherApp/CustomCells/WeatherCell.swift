@@ -12,6 +12,7 @@ class WeatherCell: UICollectionViewCell {
     
     private let stringVar = ""
     
+    // Label for displaying the date
     public lazy var customCellDateLabel: UILabel = {
        let label = UILabel()
         label.textAlignment = .center
@@ -19,12 +20,14 @@ class WeatherCell: UICollectionViewCell {
         return label
     }()
     
+    // Image View for displaying weather image
     public lazy var customCellImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person")
         return imageView
     }()
     
+    // label for displaying the daily high temperature
     public lazy var customCellHighLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -32,6 +35,7 @@ class WeatherCell: UICollectionViewCell {
         return label
     }()
     
+    // label for displaying the daily low temperature
     public lazy var customCellLowLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -39,6 +43,7 @@ class WeatherCell: UICollectionViewCell {
         return label
     }()
     
+    // Stack view for easier positioning of high and low label
     public lazy var cellHighLowStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -57,6 +62,7 @@ class WeatherCell: UICollectionViewCell {
         setUpCollectionView()
     }
     
+    // Sets up a collection view with data
     public func setUp(_ forecast: Weather){
         customCellDateLabel.text = stringVar.intervalIntoDate(forecast.time)
         customCellLowLabel.text = "Daily Low: \(String(format: "%0.0f", forecast.temperatureLow)) °F"
@@ -64,29 +70,32 @@ class WeatherCell: UICollectionViewCell {
         if let image = UIImage(named: forecast.icon) {
             customCellImage.image = image
         } else {
-            // TODO: Change the filler image to something more appropriate
-            customCellImage.image = UIImage(systemName: "person")
+            customCellImage.image = UIImage(systemName: "tornado")
         }
     }
     
+    // Shared initializer
     private func setUpCollectionView() {
         setUpCustomCellDateLabelConstraints()
         setUpCustomCellImageConstraints()
         setUpStackViewConstraints()
     }
     
+    // Sets up Date Label Constraints
     private func setUpCustomCellDateLabelConstraints() {
         contentView.addSubview(customCellDateLabel)
         customCellDateLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([customCellDateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8), customCellDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8), customCellDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)])
     }
     
+    // Sets up Image View Constraints
     private func setUpCustomCellImageConstraints() {
         contentView.addSubview(customCellImage)
         customCellImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([customCellImage.topAnchor.constraint(equalTo: customCellDateLabel.bottomAnchor, constant: 8), customCellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), customCellImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), customCellImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor), customCellImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7)])
     }
     
+    // Sets up stackView constraints
     private func setUpStackViewConstraints() {
         contentView.addSubview(cellHighLowStackView)
         cellHighLowStackView.translatesAutoresizingMaskIntoConstraints = false

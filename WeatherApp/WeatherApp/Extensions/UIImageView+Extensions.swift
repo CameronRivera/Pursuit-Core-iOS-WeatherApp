@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIImageView {
+    // Returns an image
     func getImage(_ urlString: String, completion: @escaping (Result<UIImage,NetworkError>) -> ()) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.badURL(urlString)))

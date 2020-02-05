@@ -10,6 +10,7 @@ import UIKit
 
 class FavouritesView: UIView {
     
+    // A Collection view to display the user's favourite photos.
     public lazy var collectionView: UICollectionView = {
        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -32,6 +33,7 @@ class FavouritesView: UIView {
         setUpCollectionViewConstraints()
     }
     
+    // Sets up collection view constraints
     private func setUpCollectionViewConstraints(){
         addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false

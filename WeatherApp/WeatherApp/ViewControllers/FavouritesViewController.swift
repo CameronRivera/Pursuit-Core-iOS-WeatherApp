@@ -10,6 +10,7 @@ import UIKit
 
 class FavouritesViewController: UIViewController {
 
+    // MARK: Properties of FavouritesViewController
     private var favouriteView = FavouritesView()
     private var fileManagerHandler = FileManagerHelper<StoragePhoto>("Favourites.plist")
     private var favourites = [StoragePhoto](){
@@ -28,7 +29,7 @@ class FavouritesViewController: UIViewController {
         super.viewWillAppear(true)
         setUp()
     }
-    
+    // MARK: Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -38,7 +39,7 @@ class FavouritesViewController: UIViewController {
         favouriteView.collectionView.delegate = self
 
     }
-    
+    // MARK: Helper Methods
     private func setUp(){
         do {
             favourites = try fileManagerHandler.getObject()
@@ -48,6 +49,7 @@ class FavouritesViewController: UIViewController {
     }
 }
 
+// MARK: Collection View Data Source Methods
 extension FavouritesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -64,6 +66,7 @@ extension FavouritesViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: Collection View Delegate Methods
 extension FavouritesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
