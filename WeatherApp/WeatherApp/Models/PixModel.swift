@@ -17,5 +17,5 @@ struct PixPhoto: Codable{
 }
 
 struct StoragePhoto: Codable, Equatable{
-    let photoData: Data
+    var photoData: Data
 }

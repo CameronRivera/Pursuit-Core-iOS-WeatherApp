@@ -31,8 +31,8 @@ struct DarkSkyAPI {
         }
     }
     
-    static func getWeatherURL() -> String{
-        return "https://api.darksky.net/forecast/\(ApiKeys.darkSkyApiKey)/32.3601,-92.0589?exclude=minutely,hourly,alerts,flags"
+    static func getWeatherURL(_ latAndLong: (Double, Double)) -> String{
+        return "https://api.darksky.net/forecast/\(ApiKeys.darkSkyApiKey)/\(latAndLong.0),\(latAndLong.1)?exclude=minutely,hourly,alerts,flags"
     }
     
     static func areYouNumber(_ inputText: String) -> Bool{

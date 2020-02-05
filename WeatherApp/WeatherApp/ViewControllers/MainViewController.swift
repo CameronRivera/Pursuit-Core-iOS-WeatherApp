@@ -9,13 +9,31 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
     let mainView = MainView()
     let stringVar = ""
     var weatherForecast: WeatherWrapper? {
         didSet{
             DispatchQueue.main.async{
                 self.mainView.collectionView.reloadData()
+                self.weatherForecast?.timezone = self.weatherForecast?.timezone.components(separatedBy: "_").joined(separator: " ") ?? ""
+                self.mainView.cityLabel.text = "The 7 day forecast for \(self.weatherForecast?.timezone ?? "")"
+            }
+        }
+    }
+    
+    var latAndLong: (lat: Double, long: Double) = (0,0){
+        didSet{
+            DarkSkyAPI.getWeather(DarkSkyAPI.getWeatherURL(latAndLong)) { [weak self] result in
+                switch result{
+                case .failure(let netError):
+                    DispatchQueue.main.async{
+                        self?.showAlert("Loading Error", "Error Loading weather data: \(netError)")
+                    }
+                case .success(let wrapper):
+                    self?.weatherForecast = wrapper
+                    self?.weatherForecast?.timezone = self?.weatherForecast?.timezone.components(separatedBy: "/")[1] ?? ""
+                }
             }
         }
     }
@@ -43,14 +61,16 @@ class MainViewController: UIViewController {
         mainView.collectionView.delegate = self
         mainView.collectionView.register(WeatherCell.self, forCellWithReuseIdentifier: "weatherCell")
         mainView.cityTextField.delegate = self
-        DarkSkyAPI.getWeather(DarkSkyAPI.getWeatherURL()) { [weak self] result in
-            switch result{
-            case .failure(let netError):
-                DispatchQueue.main.async{
-                    self?.showAlert("Loading Error", "Error Loading weather data: \(netError)")
+        if UserDefaultsHelper.getZipCode() != "" {
+            ZipCodeHelper.getLatLong(fromZipCode: UserDefaultsHelper.getZipCode()) { [weak self] result in
+                switch result{
+                case .failure(let error):
+                    DispatchQueue.main.async{
+                        self?.showAlert("Coordinate Fetching Error", "Could not fetch coordinates using the given zip code. \(error)")
+                    }
+                case .success(let tuple):
+                    self?.latAndLong = tuple
                 }
-            case .success(let wrapper):
-                self?.weatherForecast = wrapper
             }
         }
     }
@@ -89,6 +109,9 @@ extension MainViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailedVC = DetailViewController()
         detailedVC.dailyForecast = weatherForecast?.daily.data[indexPath.row]
+        if let loc = weatherForecast?.timezone {
+            detailedVC.location = loc
+        }
         navigationController?.pushViewController(detailedVC, animated: true)
     }
 }
@@ -117,6 +140,18 @@ extension MainViewController: UITextFieldDelegate {
             return false
         }
         
+        ZipCodeHelper.getLatLong(fromZipCode: text) { [weak self] result in
+            switch result{
+            case .failure(let fetchError):
+                DispatchQueue.main.async{
+                    self?.showAlert("Fetching Error", "Could not fetch latitude and longitude from zipCode: \(fetchError)")
+                }
+            case .success(let tuple):
+                self?.latAndLong = tuple
+                UserDefaultsHelper.addZipCode(text)
+            }
+        }
+
         textField.resignFirstResponder()
         return true
     }

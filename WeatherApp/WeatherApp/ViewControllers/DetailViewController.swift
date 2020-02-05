@@ -12,7 +12,26 @@ class DetailViewController: UIViewController {
 
     private var detailedView = DetailedView()
     private var stringVar = ""
+    private var savedPhoto = StoragePhoto(photoData: Data())
+    private var fileManagerHandler = FileManagerHelper<StoragePhoto>("Favourites.plist")
+    private var photos = [PixPhoto](){
+        didSet{
+            detailedView.cityImageView.getImage(photos[Int.random(in: 0...photos.count - 1)].largeImageURL) { [weak self] result in
+                switch result {
+                case .failure(let netError):
+                    DispatchQueue.main.async{
+                        self?.showAlert("Error Loading Image", "Could not receive random image: \(netError)")
+                    }
+                case .success(let image):
+                    DispatchQueue.main.async{
+                        self?.detailedView.cityImageView.image = image
+                    }
+                }
+            }
+        }
+    }
     public var dailyForecast: Weather?
+    public var location = ""
     
     override func loadView() {
         view = detailedView
@@ -28,6 +47,8 @@ class DetailViewController: UIViewController {
     
     private func setUp() {
         navigationItem.rightBarButtonItem = detailedView.saveButton
+        navigationItem.rightBarButtonItem?.target = self
+        navigationItem.rightBarButtonItem?.action = #selector(photoFavourited)
     }
     
     private func setUpUI(){
@@ -35,7 +56,7 @@ class DetailViewController: UIViewController {
             fatalError("Failed to pass weather data during segue")
         }
         
-        detailedView.cityAndForecastLabel.text = "Filler Text"
+        detailedView.cityAndForecastLabel.text = "The weather for \(location) on \(stringVar.intervalIntoDate(forecast.time))"
         detailedView.cityImageView.image = UIImage(systemName: "person")
         if let summary = forecast.summary{
             detailedView.descriptionLabel.text = summary
@@ -60,5 +81,33 @@ class DetailViewController: UIViewController {
         detailedView.windSpeedLabel.text = "Windspeed: \(forecast.windSpeed)"
         
         detailedView.precipitationLabel.text = "Chance of precipitation: \(String(format: "%0.0f",forecast.precipProbability * 100))%"
+        
+        PixAPI.getPixPhotos(PixAPI.getPixURL(location)) { [weak self] result in
+            switch result{
+            case .failure(let error):
+                DispatchQueue.main.async{
+                    self?.showAlert("Error loading Photos", "Could not successfully load photos: \(error)")
+                }
+            case .success(let pics):
+                self?.photos = pics
+            }
+        }
+    }
+    
+    @IBAction func photoFavourited(_ sender: UIBarButtonItem){
+        if let favouriteData = detailedView.cityImageView.image?.jpegData(compressionQuality: 1.0){
+            savedPhoto.photoData = favouriteData
+            do {
+                if try fileManagerHandler.contains(savedPhoto){
+                    try fileManagerHandler.remove(savedPhoto)
+                    showAlert("Removed", "Photo successfully removed from favourites.")
+                } else {
+                    try fileManagerHandler.saveObject(savedPhoto)
+                    showAlert("Success", "Photo successfully added to favourites.")
+                }
+            } catch {
+                showAlert("Error Saving Photo", "\(error)")
+            }
+        }
     }
 }

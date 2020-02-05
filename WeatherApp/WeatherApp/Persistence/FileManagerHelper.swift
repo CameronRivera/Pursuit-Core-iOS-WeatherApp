@@ -29,8 +29,14 @@ struct FileManagerHelper<T: Codable & Equatable>{
         try serializeAndPersist(savedObjects)
     }
     
-    func remove(_ index: Int) throws {
+    func remove(_ item: T) throws {
         var savedObjects = try getObject()
+        var index = -1
+        for (position,object) in savedObjects.enumerated(){
+            if item == object{
+                index = position
+            }
+        }
         savedObjects.remove(at: index)
         try serializeAndPersist(savedObjects)
     }
@@ -38,6 +44,11 @@ struct FileManagerHelper<T: Codable & Equatable>{
     func serializeAndPersist(_ objects: [T]) throws {
         let dataToWrite = try PropertyListEncoder().encode(objects)
         try dataToWrite.write(to: FileManager.default.filePathFromDocumentsDirectory(fileName), options: Data.WritingOptions.atomic)
+    }
+    
+    func contains(_ object: T) throws -> Bool {
+        let savedObjects = try getObject()
+        return savedObjects.contains(object)
     }
     
 }

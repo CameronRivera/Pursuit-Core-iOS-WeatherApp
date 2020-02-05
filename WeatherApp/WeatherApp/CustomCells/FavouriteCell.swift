@@ -35,4 +35,8 @@ class FavouriteCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([imageView.topAnchor.constraint(equalTo: contentView.topAnchor), imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor), imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor), imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)])
     }
+    
+    public func setUp(_ photo: StoragePhoto){
+        imageView.image = UIImage(data: photo.photoData)
+    }
 }

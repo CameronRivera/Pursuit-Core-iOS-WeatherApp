@@ -11,29 +11,47 @@ import UIKit
 class FavouritesViewController: UIViewController {
 
     private var favouriteView = FavouritesView()
+    private var fileManagerHandler = FileManagerHelper<StoragePhoto>("Favourites.plist")
+    private var favourites = [StoragePhoto](){
+        didSet {
+            DispatchQueue.main.async{
+                self.favouriteView.collectionView.reloadData()
+            }
+        }
+    }
     
     override func loadView(){
         view = favouriteView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setUp()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "Favourites"
-        setUp()
-    }
-    
-    private func setUp(){
         favouriteView.collectionView.register(FavouriteCell.self, forCellWithReuseIdentifier: "favouriteCell")
         favouriteView.collectionView.dataSource = self
         favouriteView.collectionView.delegate = self
+
+    }
+    
+    private func setUp(){
+        do {
+            favourites = try fileManagerHandler.getObject()
+        } catch {
+            showAlert("Error Loading Favourites", "\(error)")
+        }
     }
 }
 
 extension FavouritesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return favourites.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -41,6 +59,7 @@ extension FavouritesViewController: UICollectionViewDataSource {
             fatalError("Could not create an instance of FavouriteCell")
         }
         xCell.backgroundColor = .systemGreen
+        xCell.setUp(favourites[indexPath.row])
         return xCell
     }
 }
@@ -52,6 +71,6 @@ extension FavouritesViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 0)
     }
 }

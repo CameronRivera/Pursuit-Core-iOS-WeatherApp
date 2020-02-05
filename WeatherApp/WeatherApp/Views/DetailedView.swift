@@ -14,6 +14,7 @@ class DetailedView: UIView {
        let label = UILabel()
         label.textAlignment = .center
         label.text = "Filler Text"
+        label.numberOfLines = 0
         return label
     }()
     
@@ -107,7 +108,7 @@ class DetailedView: UIView {
     private func setUpCityAndForecastLabelConstraints(){
         addSubview(cityAndForecastLabel)
         cityAndForecastLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([cityAndForecastLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), cityAndForecastLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20), cityAndForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 20)])
+        NSLayoutConstraint.activate([cityAndForecastLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20), cityAndForecastLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20), cityAndForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)])
     }
     
     private func setUpCityImageViewConstraints() {
