@@ -17,13 +17,13 @@ class MainViewController: UIViewController {
         didSet{
             DispatchQueue.main.async{
                 self.mainView.collectionView.reloadData()
-                self.weatherForecast?.timezone = self.weatherForecast?.timezone.components(separatedBy: "_").joined(separator: " ") ?? ""
-                self.mainView.cityLabel.text = "The 7 day forecast for \(self.weatherForecast?.timezone ?? "")"
+//                self.weatherForecast?.timezone = self.weatherForecast?.timezone.components(separatedBy: "_").joined(separator: " ") ?? ""
+                self.mainView.cityLabel.text = "The 7 day forecast for \(self.latAndLong.2)"
             }
         }
     }
     
-    var latAndLong: (lat: Double, long: Double) = (0,0){
+    var latAndLong: (lat: Double, long: Double, placeName: String) = (0,0,""){
         didSet{
             DarkSkyAPI.getWeather(DarkSkyAPI.getWeatherURL(latAndLong)) { [weak self] result in
                 switch result{
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
                     }
                 case .success(let wrapper):
                     self?.weatherForecast = wrapper
-                    self?.weatherForecast?.timezone = self?.weatherForecast?.timezone.components(separatedBy: "/")[1] ?? ""
+//                    self?.weatherForecast?.timezone = self?.weatherForecast?.timezone.components(separatedBy: "/")[1] ?? ""
                 }
             }
         }
@@ -114,9 +114,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailedVC = DetailViewController()
         detailedVC.dailyForecast = weatherForecast?.daily.data[indexPath.row]
-        if let loc = weatherForecast?.timezone {
-            detailedVC.location = loc
-        }
+        detailedVC.location = latAndLong.2
         navigationController?.pushViewController(detailedVC, animated: true)
     }
 }

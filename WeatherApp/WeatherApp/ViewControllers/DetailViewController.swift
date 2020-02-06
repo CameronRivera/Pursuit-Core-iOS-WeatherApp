@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    
     //MARK: Properties of DetailViewController
     private var detailedView = DetailedView()
     private var stringVar = ""
@@ -17,15 +17,17 @@ class DetailViewController: UIViewController {
     private var fileManagerHandler = FileManagerHelper<StoragePhoto>("Favourites.plist")
     private var photos = [PixPhoto](){
         didSet{
-            detailedView.cityImageView.getImage(photos[Int.random(in: 0...photos.count - 1)].largeImageURL) { [weak self] result in
-                switch result {
-                case .failure(let netError):
-                    DispatchQueue.main.async{
-                        self?.showAlert("Error Loading Image", "Could not receive random image: \(netError)")
-                    }
-                case .success(let image):
-                    DispatchQueue.main.async{
-                        self?.detailedView.cityImageView.image = image
+            if photos.count > 0{
+                detailedView.cityImageView.getImage(photos[Int.random(in: 0...photos.count - 1)].largeImageURL) { [weak self] result in
+                    switch result {
+                    case .failure(let netError):
+                        DispatchQueue.main.async{
+                            self?.showAlert("Error Loading Image", "Could not receive random image: \(netError)")
+                        }
+                    case .success(let image):
+                        DispatchQueue.main.async{
+                            self?.detailedView.cityImageView.image = image
+                        }
                     }
                 }
             }
