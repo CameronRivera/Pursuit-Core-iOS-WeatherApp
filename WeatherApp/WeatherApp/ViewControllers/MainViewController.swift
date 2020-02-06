@@ -17,7 +17,6 @@ class MainViewController: UIViewController {
         didSet{
             DispatchQueue.main.async{
                 self.mainView.collectionView.reloadData()
-//                self.weatherForecast?.timezone = self.weatherForecast?.timezone.components(separatedBy: "_").joined(separator: " ") ?? ""
                 self.mainView.cityLabel.text = "The 7 day forecast for \(self.latAndLong.2)"
             }
         }
@@ -33,7 +32,6 @@ class MainViewController: UIViewController {
                     }
                 case .success(let wrapper):
                     self?.weatherForecast = wrapper
-//                    self?.weatherForecast?.timezone = self?.weatherForecast?.timezone.components(separatedBy: "/")[1] ?? ""
                 }
             }
         }
